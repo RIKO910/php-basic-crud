@@ -14,22 +14,16 @@ if (isset($_POST["submit"])) {
         die("Fatal error: Database connection is null. Check your connection parameters.");
     }
 
+    $myname = $conn->real_escape_string($myname);
+
     // Insert data into table.
-    $sql = "INSERT INTO profile (myname) VALUES (?)";
-    $stmt = $conn->prepare($sql);
-    if ($stmt === false) {
-        die("Fatal error: Failed to prepare statement. Error: " . $conn->error);
-    }
-    $stmt->bind_param("s", $myname);
+    $sql = "INSERT INTO profile (myname) VALUES ('$myname')";
 
-    // Execute the statement
-    if ($stmt->execute()) {
-        $message = "Record inserted successfully";
+    if ($conn->query($sql) === true) {
+        echo "New record created successfully";
     } else {
-        $message = "Error: " . $stmt->error;
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
-
-    $stmt->close();
     $conn->close();
 }
 ?>
