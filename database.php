@@ -26,16 +26,20 @@ if ($conn->query($sql) === TRUE) {
 
 // sql to create table.
 
-$sql = "CREATE TABLE profile (
+$sql = "CREATE TABLE IF NOT EXISTS profile (
     id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     myname VARCHAR(30) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )";
+
+// sql to check table create successfully.
 
 if(mysqli_query($conn, $sql)){
     echo "Table created successfully";
 }else{
     echo "Error creating table: " . mysqli_error($conn);
 }
+
+// Close mysql.
 
 mysqli_close($conn);
